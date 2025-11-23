@@ -1,5 +1,5 @@
 <a href="https://circledev8.github.io/file-generator/">
-<img src="file-generator-icon.svg" alt="isolated" width="100"/></a>
+<img src="icons/main.png" alt="isolated" width="100"/></a>
 
 The file generator allows you to create mock files of varying sizes.
 
