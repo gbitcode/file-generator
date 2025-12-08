@@ -22,6 +22,21 @@
         .container {
             max-width: 700px !important;
         }
+        .gbit-logo-frame {
+            display: inline-block;
+            background-color: #000;
+            padding: 8px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+        .gbit-logo-frame:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .gbit-logo-frame img {
+            display: block;
+        }
     </style>
 
     <script src="js/common.js"></script>
@@ -34,10 +49,13 @@
                 <img src="icons/icon-128.png" alt="File Generator Icon" class="w-12 h-12">
                 <h1 class="text-4xl font-bold">File Generator</h1>
             </div>
-            <a href="https://chromewebstore.google.com/detail/bejllpcmmbbkoepmageoeodnadnapkhp?utm_source=web-chrome-ext" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm link link-hover mb-2">
-                <img src="https://fonts.gstatic.com/s/i/productlogos/chrome_store/v7/192px.svg" alt="Chrome Web Store" class="w-5 h-5">
-                Get Chrome Extension
-            </a>
+            <div class="flex items-center justify-center gap-2 mb-2">
+                <a href="https://chromewebstore.google.com/detail/bejllpcmmbbkoepmageoeodnadnapkhp?utm_source=web-chrome-ext" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm link link-hover">
+                    <img src="https://fonts.gstatic.com/s/i/productlogos/chrome_store/v7/192px.svg" alt="Chrome Web Store" class="w-5 h-5">
+                    Get Chrome Extension for
+                </a>
+                <span class="badge badge-sm badge-outline">offline usage</span>
+            </div>
             <h3 class="text-base-content/70">Generate mock PDF with custom configuration</h3>
         </div>
 
@@ -142,6 +160,15 @@
                 logToUI('Downloading file...');
                 downloadFile(blob, 'document.pdf');
                 logToUI('✓ Download complete!');
+
+                // Track in Google Analytics
+                gtag('event', 'generate_pdf', {
+                    'event_category': 'file_generation',
+                    'event_label': config.pageFormat,
+                    'page_format': config.pageFormat,
+                    'pages': config.pages || 'size_based',
+                    'has_size': config.size ? 'yes' : 'no'
+                });
             } catch (error) {
                 logToUI(`❌ Error: ${error.message}`);
                 showError('PDF generation failed: ' + error.message);
@@ -176,6 +203,9 @@
     <!-- Footer -->
     <footer class="footer footer-center p-6 mt-8 bg-base-100 text-base-content">
         <div>
+            <a href="https://gbitcode.com/" target="_blank" rel="noopener" class="gbit-logo-frame mb-3">
+                <img src="assets/gbit.png" alt="GbitCode" class="w-12 h-12">
+            </a>
             <div class="flex gap-4">
                 <a href="privacy.html" class="link link-hover">Privacy Policy</a>
                 <span>•</span>
