@@ -1,0 +1,37 @@
+---
+layout: default
+---
+
+<div class="container container-privacy mx-auto p-8 flex-grow">
+    <div class="text-center mb-8">
+        <div class="flex items-center justify-center gap-3 mb-2">
+            <img
+                src="/icons/icon-128.png"
+                alt="File Generator Icon"
+                class="w-12 h-12"
+            />
+            <h1 class="text-4xl font-bold">{{ page.title }}</h1>
+        </div>
+        <div class="flex items-center justify-center gap-2 mb-2">
+            <a
+                href="{{ site.chrome_extension_url }}"
+                target="_blank"
+                rel="noopener"
+                class="inline-flex items-center gap-2 text-sm link link-hover"
+            >
+                <img
+                    src="https://fonts.gstatic.com/s/i/productlogos/chrome_store/v7/192px.svg"
+                    alt="Chrome Web Store"
+                    class="w-5 h-5"
+                />
+                Get Chrome Extension for
+            </a>
+            <span class="badge badge-sm badge-outline">offline usage</span>
+        </div>
+        <p class="text-base-content/70">{{ page.last_updated }}</p>
+    </div>
+
+    <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">{{ content }}</div>
+    </div>
+</div>

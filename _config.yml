@@ -1,0 +1,32 @@
+# Site Settings
+title: "File Generator"
+description: "Generate mock files for testing - images, text, CSV, PDF, binary, and ZIP files"
+url: "https://file-generator.gbitcode.com"
+baseurl: "/"
+
+# Build Settings
+markdown: kramdown
+permalink: pretty
+plugins:
+  - jekyll-redirect-from
+exclude:
+  - .git
+  - .gitignore
+  - readme.md
+  - CLAUDE.md
+  - .idea
+  - .local
+
+# Site Variables
+google_analytics_id: "G-V01TK3Q8SV"
+chrome_extension_url: "https://chromewebstore.google.com/detail/bejllpcmmbbkoepmageoeodnadnapkhp?utm_source=web-chrome-ext"
+gbitcode_url: "https://gbitcode.com/"
+github_issues_url: "https://github.com/gbitcode/file-generator/issues"
+
+# Verification Tags (for index.html only)
+verify_admitad: "9e6aad1263"
+google_site_verification: "vuu74ziijIrzPCnTvmQ_tSZ9JCDPPfOmYNxCIqkejDw"
+
+# Container Widths
+container_width_default: "700px"
+container_width_privacy: "900px"
