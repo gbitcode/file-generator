@@ -1,17 +1,14 @@
 ---
 layout: default
 ---
-<div class="container mx-auto p-8 flex-grow">
-    {% include header.html subtitle=page.subtitle %}
+
+<div class="container mx-auto p-2 flex-grow">
+    {% include header.html subtitle=page.subtitle %} {% include tabs.html
+    active_tab=page.tab_id %}
 
     <div class="card bg-base-100 shadow-xl">
-        <div class="card-body">
-            {% include tabs.html active_tab=page.tab_id %}
-
-            {{ content }}
-        </div>
+        <div class="card-body">{{ content }}</div>
     </div>
 
-    {% include progress-bar.html %}
-    {% include logs-viewer.html %}
+    {% include progress-bar.html %} {% include logs-viewer.html %}
 </div>

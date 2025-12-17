@@ -3,11 +3,11 @@ layout: generator
 title: "PDF Generator"
 subtitle: "Generate mock PDF with custom configuration"
 tab_id: "PDF"
-generator_script: "js/generators/pdf.js"
+generator_script: "/js/generators/pdf.js"
 extra_scripts:
-  - "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+    - "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
 redirect_from:
-  - /pdf.html
+    - /pdf.html
 ---
 
 <h2 class="text-2xl font-bold mb-4">PDF Generator</h2>
@@ -27,7 +27,13 @@ redirect_from:
         <label class="label">
             <span class="label-text">Number of Pages</span>
         </label>
-        <input type="number" name="pages" value="1" min="1" class="input input-bordered w-full">
+        <input
+            type="number"
+            name="pages"
+            value="1"
+            min="1"
+            class="input input-bordered w-full"
+        />
         <label class="label">
             <span class="label-text-alt">Disabled if size is specified</span>
         </label>
@@ -39,68 +45,81 @@ redirect_from:
         <label class="label">
             <span class="label-text">Target Size (Optional)</span>
         </label>
-        <div class="flex gap-2">
-            <input type="number" name="size" min="0" step="0.01" class="input input-bordered flex-1" placeholder="Leave empty to use pages">
-            <select name="sizeUnit" class="select select-bordered w-32">
+        <div class="flex flex-col sm:flex-row gap-2">
+            <input
+                type="number"
+                name="size"
+                min="0"
+                step="0.01"
+                class="input input-bordered"
+                placeholder="Leave empty to use pages"
+            />
+            <select name="sizeUnit" class="select select-bordered">
                 <option value="KB">KB</option>
                 <option value="MB">MB</option>
             </select>
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary w-full">Generate & Download</button>
+    <button type="submit" class="btn btn-primary w-full">
+        Generate & Download
+    </button>
 </form>
 
 <script>
-    document.getElementById('form-pdf').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const config = {
-            pageFormat: formData.get('pageFormat'),
-            pages: parseInt(formData.get('pages')) || null,
-            size: formData.get('size') ? parseFloat(formData.get('size')) : null,
-            sizeUnit: formData.get('sizeUnit')
-        };
+    document
+        .getElementById("form-pdf")
+        .addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const config = {
+                pageFormat: formData.get("pageFormat"),
+                pages: parseInt(formData.get("pages")) || null,
+                size: formData.get("size")
+                    ? parseFloat(formData.get("size"))
+                    : null,
+                sizeUnit: formData.get("sizeUnit"),
+            };
 
-        try {
-            const blob = await generatePDF(config);
-            logToUI('Downloading file...');
-            downloadFile(blob, 'document.pdf');
-            logToUI('✓ Download complete!');
+            try {
+                const blob = await generatePDF(config);
+                logToUI("Downloading file...");
+                downloadFile(blob, "document.pdf");
+                logToUI("✓ Download complete!");
 
-            // Track in Google Analytics
-            gtag('event', 'generate_pdf', {
-                'event_category': 'file_generation',
-                'event_label': config.pageFormat,
-                'page_format': config.pageFormat,
-                'pages': config.pages || 'size_based',
-                'has_size': config.size ? 'yes' : 'no'
-            });
-        } catch (error) {
-            logToUI(`❌ Error: ${error.message}`);
-            showError('PDF generation failed: ' + error.message);
-            hideProgress();
-        }
-    });
+                // Track in Google Analytics
+                gtag("event", "generate_pdf", {
+                    event_category: "file_generation",
+                    event_label: config.pageFormat,
+                    page_format: config.pageFormat,
+                    pages: config.pages || "size_based",
+                    has_size: config.size ? "yes" : "no",
+                });
+            } catch (error) {
+                logToUI(`❌ Error: ${error.message}`);
+                showError("PDF generation failed: " + error.message);
+                hideProgress();
+            }
+        });
 
     // Mutual exclusion logic
     const pdfSizeInput = document.querySelector('input[name="size"]');
     const pdfPagesInput = document.querySelector('input[name="pages"]');
 
-    pdfSizeInput.addEventListener('input', (e) => {
+    pdfSizeInput.addEventListener("input", (e) => {
         if (e.target.value) {
             pdfPagesInput.disabled = true;
-            pdfPagesInput.value = '';
+            pdfPagesInput.value = "";
         } else {
             pdfPagesInput.disabled = false;
             pdfPagesInput.value = 1;
         }
     });
 
-    pdfPagesInput.addEventListener('input', (e) => {
+    pdfPagesInput.addEventListener("input", (e) => {
         if (e.target.value) {
             pdfSizeInput.disabled = true;
-            pdfSizeInput.value = '';
+            pdfSizeInput.value = "";
         } else {
             pdfSizeInput.disabled = false;
         }

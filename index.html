@@ -3,7 +3,7 @@ layout: generator
 title: "Image Generator - generate png, gif, jpg, svg, bmp"
 subtitle: "Generate mock image in jpg, png, gif, bmp or svg format."
 tab_id: "IMAGE"
-generator_script: "js/generators/image.js"
+generator_script: "/js/generators/image.js"
 is_index: true
 ---
 
@@ -22,18 +22,32 @@ is_index: true
         </select>
     </div>
 
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div class="form-control">
             <label class="label">
                 <span class="label-text">Width (px)</span>
             </label>
-            <input type="number" name="width" value="800" min="1" class="input input-bordered w-full" required>
+            <input
+                type="number"
+                name="width"
+                value="800"
+                min="1"
+                class="input input-bordered w-full"
+                required
+            />
         </div>
         <div class="form-control">
             <label class="label">
                 <span class="label-text">Height (px)</span>
             </label>
-            <input type="number" name="height" value="600" min="1" class="input input-bordered w-full" required>
+            <input
+                type="number"
+                name="height"
+                value="600"
+                min="1"
+                class="input input-bordered w-full"
+                required
+            />
         </div>
     </div>
 
@@ -41,65 +55,78 @@ is_index: true
         <label class="label">
             <span class="label-text">Size (Optional)</span>
         </label>
-        <div class="flex gap-2">
-            <input type="number" name="size" min="0.01" step="0.01" class="input input-bordered flex-1" placeholder="Optional">
-            <select name="sizeUnit" class="select select-bordered w-32">
+        <div class="flex flex-col sm:flex-row gap-2">
+            <input
+                type="number"
+                name="size"
+                min="0.01"
+                step="0.01"
+                class="input input-bordered"
+                placeholder="Optional"
+            />
+            <select name="sizeUnit" class="select select-bordered">
                 <option value="KB">KB</option>
                 <option value="MB">MB</option>
             </select>
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary w-full">Generate & Download</button>
+    <button type="submit" class="btn btn-primary w-full">
+        Generate & Download
+    </button>
 </form>
 
 <script>
-    document.getElementById('form-image').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const config = {
-            format: formData.get('format'),
-            width: parseInt(formData.get('width')),
-            height: parseInt(formData.get('height')),
-            size: formData.get('size') ? parseFloat(formData.get('size')) : null,
-            sizeUnit: formData.get('sizeUnit')
-        };
+    document
+        .getElementById("form-image")
+        .addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const config = {
+                format: formData.get("format"),
+                width: parseInt(formData.get("width")),
+                height: parseInt(formData.get("height")),
+                size: formData.get("size")
+                    ? parseFloat(formData.get("size"))
+                    : null,
+                sizeUnit: formData.get("sizeUnit"),
+            };
 
-        try {
-            const blob = await generateImage(config);
-            logToUI('Downloading file...');
-            downloadFile(blob, `image.${config.format}`);
-            logToUI('✓ Download complete!');
+            try {
+                const blob = await generateImage(config);
+                logToUI("Downloading file...");
+                downloadFile(blob, `image.${config.format}`);
+                logToUI("✓ Download complete!");
 
-            // Track in Google Analytics
-            gtag('event', 'generate_image', {
-                'event_category': 'file_generation',
-                'event_label': config.format,
-                'format': config.format,
-                'width': config.width,
-                'height': config.height,
-                'has_size': config.size ? 'yes' : 'no'
-            });
-        } catch (error) {
-            logToUI(`❌ Error: ${error.message}`);
-            showError('Image generation failed: ' + error.message);
-            hideProgress();
-        }
-    });
+                // Track in Google Analytics
+                gtag("event", "generate_image", {
+                    event_category: "file_generation",
+                    event_label: config.format,
+                    format: config.format,
+                    width: config.width,
+                    height: config.height,
+                    has_size: config.size ? "yes" : "no",
+                });
+            } catch (error) {
+                logToUI(`❌ Error: ${error.message}`);
+                showError("Image generation failed: " + error.message);
+                hideProgress();
+            }
+        });
 
     // Disable size input for SVG
     const imageFormat = document.querySelector('select[name="format"]');
-    const sizeContainer = document.getElementById('image-size-container');
+    const sizeContainer = document.getElementById("image-size-container");
 
-    imageFormat.addEventListener('change', (e) => {
-        const isSVG = e.target.value === 'svg';
+    imageFormat.addEventListener("change", (e) => {
+        const isSVG = e.target.value === "svg";
         const sizeInput = sizeContainer.querySelector('input[name="size"]');
         const sizeUnit = sizeContainer.querySelector('select[name="sizeUnit"]');
 
         if (isSVG) {
             sizeInput.disabled = true;
             sizeUnit.disabled = true;
-            sizeInput.value = '';
+            sizeInput.value = "";
         } else {
             sizeInput.disabled = false;
             sizeUnit.disabled = false;

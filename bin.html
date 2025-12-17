@@ -3,9 +3,9 @@ layout: generator
 title: "Binary File Generator"
 subtitle: "Generate binary file with custom configuration"
 tab_id: "BIN"
-generator_script: "js/generators/binary.js"
+generator_script: "/js/generators/binary.js"
 redirect_from:
-  - /bin.html
+    - /bin.html
 ---
 
 <h2 class="text-2xl font-bold mb-4">Binary File Generator</h2>
@@ -14,44 +14,56 @@ redirect_from:
         <label class="label">
             <span class="label-text">File Size</span>
         </label>
-        <div class="flex gap-2">
-            <input type="number" name="size" value="1" min="0.01" step="0.01" class="input input-bordered flex-1" required>
-            <select name="sizeUnit" class="select select-bordered w-32">
+        <div class="flex flex-col sm:flex-row gap-2">
+            <input
+                type="number"
+                name="size"
+                value="1"
+                min="0.01"
+                step="0.01"
+                class="input input-bordered"
+                required
+            />
+            <select name="sizeUnit" class="select select-bordered">
                 <option value="KB">KB</option>
                 <option value="MB">MB</option>
             </select>
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary w-full">Generate & Download</button>
+    <button type="submit" class="btn btn-primary w-full">
+        Generate & Download
+    </button>
 </form>
 
 <script>
-    document.getElementById('form-bin').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const config = {
-            size: parseFloat(formData.get('size')),
-            sizeUnit: formData.get('sizeUnit')
-        };
+    document
+        .getElementById("form-bin")
+        .addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const config = {
+                size: parseFloat(formData.get("size")),
+                sizeUnit: formData.get("sizeUnit"),
+            };
 
-        try {
-            const blob = await generateBinary(config);
-            logToUI('Downloading file...');
-            downloadFile(blob, 'file.bin');
-            logToUI('✓ Download complete!');
+            try {
+                const blob = await generateBinary(config);
+                logToUI("Downloading file...");
+                downloadFile(blob, "file.bin");
+                logToUI("✓ Download complete!");
 
-            // Track in Google Analytics
-            gtag('event', 'generate_bin', {
-                'event_category': 'file_generation',
-                'event_label': 'binary',
-                'size': config.size,
-                'size_unit': config.sizeUnit
-            });
-        } catch (error) {
-            logToUI(`❌ Error: ${error.message}`);
-            showError('Binary generation failed: ' + error.message);
-            hideProgress();
-        }
-    });
+                // Track in Google Analytics
+                gtag("event", "generate_bin", {
+                    event_category: "file_generation",
+                    event_label: "binary",
+                    size: config.size,
+                    size_unit: config.sizeUnit,
+                });
+            } catch (error) {
+                logToUI(`❌ Error: ${error.message}`);
+                showError("Binary generation failed: " + error.message);
+                hideProgress();
+            }
+        });
 </script>

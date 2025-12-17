@@ -3,9 +3,9 @@ layout: generator
 title: "Text File Generator"
 subtitle: "Generate TXT with custom configuration"
 tab_id: "TXT"
-generator_script: "js/generators/text.js"
+generator_script: "/js/generators/text.js"
 redirect_from:
-  - /txt.html
+    - /txt.html
 ---
 
 <h2 class="text-2xl font-bold mb-4">Text File Generator</h2>
@@ -14,7 +14,13 @@ redirect_from:
         <label class="label">
             <span class="label-text">Number of Rows</span>
         </label>
-        <input type="number" name="rows" value="10" min="1" class="input input-bordered w-full">
+        <input
+            type="number"
+            name="rows"
+            value="10"
+            min="1"
+            class="input input-bordered w-full"
+        />
         <label class="label">
             <span class="label-text-alt">Disabled if size is specified</span>
         </label>
@@ -26,66 +32,79 @@ redirect_from:
         <label class="label">
             <span class="label-text">Target Size (Optional)</span>
         </label>
-        <div class="flex gap-2">
-            <input type="number" name="size" min="0" step="0.01" class="input input-bordered flex-1" placeholder="Leave empty to use rows">
-            <select name="sizeUnit" class="select select-bordered w-32">
+        <div class="flex flex-col sm:flex-row gap-2">
+            <input
+                type="number"
+                name="size"
+                min="0"
+                step="0.01"
+                class="input input-bordered"
+                placeholder="Leave empty to use rows"
+            />
+            <select name="sizeUnit" class="select select-bordered">
                 <option value="KB">KB</option>
                 <option value="MB">MB</option>
             </select>
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary w-full">Generate & Download</button>
+    <button type="submit" class="btn btn-primary w-full">
+        Generate & Download
+    </button>
 </form>
 
 <script>
-    document.getElementById('form-txt').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const config = {
-            rows: parseInt(formData.get('rows')) || null,
-            size: formData.get('size') ? parseFloat(formData.get('size')) : null,
-            sizeUnit: formData.get('sizeUnit')
-        };
+    document
+        .getElementById("form-txt")
+        .addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const config = {
+                rows: parseInt(formData.get("rows")) || null,
+                size: formData.get("size")
+                    ? parseFloat(formData.get("size"))
+                    : null,
+                sizeUnit: formData.get("sizeUnit"),
+            };
 
-        try {
-            const blob = await generateText(config);
-            logToUI('Downloading file...');
-            downloadFile(blob, 'file.txt');
-            logToUI('✓ Download complete!');
+            try {
+                const blob = await generateText(config);
+                logToUI("Downloading file...");
+                downloadFile(blob, "file.txt");
+                logToUI("✓ Download complete!");
 
-            // Track in Google Analytics
-            gtag('event', 'generate_txt', {
-                'event_category': 'file_generation',
-                'event_label': 'text',
-                'rows': config.rows || 'size_based',
-                'has_size': config.size ? 'yes' : 'no'
-            });
-        } catch (error) {
-            logToUI(`❌ Error: ${error.message}`);
-            showError('Text generation failed: ' + error.message);
-            hideProgress();
-        }
-    });
+                // Track in Google Analytics
+                gtag("event", "generate_txt", {
+                    event_category: "file_generation",
+                    event_label: "text",
+                    rows: config.rows || "size_based",
+                    has_size: config.size ? "yes" : "no",
+                });
+            } catch (error) {
+                logToUI(`❌ Error: ${error.message}`);
+                showError("Text generation failed: " + error.message);
+                hideProgress();
+            }
+        });
 
     // Mutual exclusion logic
     const txtSizeInput = document.querySelector('input[name="size"]');
     const txtRowsInput = document.querySelector('input[name="rows"]');
 
-    txtSizeInput.addEventListener('input', (e) => {
+    txtSizeInput.addEventListener("input", (e) => {
         if (e.target.value) {
             txtRowsInput.disabled = true;
-            txtRowsInput.value = '';
+            txtRowsInput.value = "";
         } else {
             txtRowsInput.disabled = false;
             txtRowsInput.value = 10;
         }
     });
 
-    txtRowsInput.addEventListener('input', (e) => {
+    txtRowsInput.addEventListener("input", (e) => {
         if (e.target.value) {
             txtSizeInput.disabled = true;
-            txtSizeInput.value = '';
+            txtSizeInput.value = "";
         } else {
             txtSizeInput.disabled = false;
         }

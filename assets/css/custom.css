@@ -8,19 +8,28 @@
     max-width: 900px !important;
 }
 
+a.tab {
+    padding: 5px;
+    line-height: 5px;
+}
+
 /* GbitCode logo frame styles */
 .gbit-logo-frame {
     display: inline-block;
     background-color: #000;
     padding: 8px;
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.1),
+        0 2px 4px rgba(0, 0, 0, 0.06);
     transition: all 0.3s ease;
 }
 
 .gbit-logo-frame:hover {
     transform: scale(1.1) rotate(5deg);
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow:
+        0 10px 15px rgba(0, 0, 0, 0.2),
+        0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .gbit-logo-frame img {
@@ -55,4 +64,28 @@
 .privacy-section ul {
     list-style-type: disc;
     margin-left: 1.5rem;
+}
+
+/* Mobile-friendly container padding */
+@media (max-width: 640px) {
+    .container,
+    .container-privacy {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+/* Ensure tabs scroll on mobile */
+.tabs-boxed {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Touch-friendly form controls */
+@media (max-width: 640px) {
+    .btn,
+    .input,
+    .select {
+        min-height: 44px;
+    }
 }
