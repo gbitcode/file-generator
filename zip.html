@@ -116,7 +116,8 @@ redirect_from:
             try {
                 const blob = await generateZIP(config);
                 logToUI("Preparing file...");
-                const result = await downloadOrShareFile(blob, "archive.zip", "zip");
+                const shareTitle = `ZIP archive ${config.size} ${config.sizeUnit}`;
+                const result = await downloadOrShareFile(blob, "archive.zip", "zip", shareTitle);
                 if (result.method === 'download') {
                     logToUI("✓ Download complete!");
                 }

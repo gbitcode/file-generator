@@ -70,7 +70,10 @@ redirect_from:
             try {
                 const blob = await generateText(config);
                 logToUI("Preparing file...");
-                const result = await downloadOrShareFile(blob, "file.txt", "text");
+                const shareTitle = config.size
+                    ? `Text file ${config.size} ${config.sizeUnit}`
+                    : `Text file ${config.rows} rows`;
+                const result = await downloadOrShareFile(blob, "file.txt", "text", shareTitle);
                 if (result.method === 'download') {
                     logToUI("✓ Download complete!");
                 }

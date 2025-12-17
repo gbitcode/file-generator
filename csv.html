@@ -85,7 +85,10 @@ redirect_from:
             try {
                 const blob = await generateCSV(config);
                 logToUI("Preparing file...");
-                const result = await downloadOrShareFile(blob, "data.csv", "csv");
+                const shareTitle = config.size
+                    ? `CSV ${config.columns} columns ${config.size} ${config.sizeUnit}`
+                    : `CSV ${config.columns} columns ${config.rows} rows`;
+                const result = await downloadOrShareFile(blob, "data.csv", "csv", shareTitle);
                 if (result.method === 'download') {
                     logToUI("✓ Download complete!");
                 }

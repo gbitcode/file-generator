@@ -84,7 +84,10 @@ redirect_from:
             try {
                 const blob = await generatePDF(config);
                 logToUI("Preparing file...");
-                const result = await downloadOrShareFile(blob, "document.pdf", "pdf");
+                const shareTitle = config.size
+                    ? `PDF ${config.pageFormat.toUpperCase()} ${config.size} ${config.sizeUnit}`
+                    : `PDF ${config.pageFormat.toUpperCase()} ${config.pages} pages`;
+                const result = await downloadOrShareFile(blob, "document.pdf", "pdf", shareTitle);
                 if (result.method === 'download') {
                     logToUI("✓ Download complete!");
                 }

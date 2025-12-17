@@ -67,7 +67,7 @@ function canUseWebShare(file) {
 }
 
 // Main download/share function
-async function downloadOrShareFile(blob, filename, fileType = 'file') {
+async function downloadOrShareFile(blob, filename, fileType = 'file', shareTitle = null) {
     const file = new File([blob], filename, { type: blob.type });
 
     // Determine if we should attempt to share
@@ -77,8 +77,7 @@ async function downloadOrShareFile(blob, filename, fileType = 'file') {
         try {
             await navigator.share({
                 files: [file],
-                title: `Generated ${fileType}`,
-                text: `Check out this generated ${filename}`
+                title: shareTitle || filename
             });
 
             window.logToUI('✓ File shared successfully!');

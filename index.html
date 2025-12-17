@@ -95,7 +95,8 @@ is_index: true
             try {
                 const blob = await generateImage(config);
                 logToUI("Preparing file...");
-                const result = await downloadOrShareFile(blob, `image.${config.format}`, config.format);
+                const shareTitle = `Image ${config.width}x${config.height} ${config.format.toUpperCase()}`;
+                const result = await downloadOrShareFile(blob, `image.${config.format}`, config.format, shareTitle);
                 if (result.method === 'download') {
                     logToUI("✓ Download complete!");
                 }
