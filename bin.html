@@ -49,9 +49,11 @@ redirect_from:
 
             try {
                 const blob = await generateBinary(config);
-                logToUI("Downloading file...");
-                downloadFile(blob, "file.bin");
-                logToUI("✓ Download complete!");
+                logToUI("Preparing file...");
+                const result = await downloadOrShareFile(blob, "file.bin", "binary");
+                if (result.method === 'download') {
+                    logToUI("✓ Download complete!");
+                }
 
                 // Track in Google Analytics
                 gtag("event", "generate_bin", {

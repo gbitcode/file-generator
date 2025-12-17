@@ -84,9 +84,11 @@ redirect_from:
 
             try {
                 const blob = await generateCSV(config);
-                logToUI("Downloading file...");
-                downloadFile(blob, "data.csv");
-                logToUI("✓ Download complete!");
+                logToUI("Preparing file...");
+                const result = await downloadOrShareFile(blob, "data.csv", "csv");
+                if (result.method === 'download') {
+                    logToUI("✓ Download complete!");
+                }
 
                 // Track in Google Analytics
                 gtag("event", "generate_csv", {

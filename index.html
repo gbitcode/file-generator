@@ -94,9 +94,11 @@ is_index: true
 
             try {
                 const blob = await generateImage(config);
-                logToUI("Downloading file...");
-                downloadFile(blob, `image.${config.format}`);
-                logToUI("✓ Download complete!");
+                logToUI("Preparing file...");
+                const result = await downloadOrShareFile(blob, `image.${config.format}`, config.format);
+                if (result.method === 'download') {
+                    logToUI("✓ Download complete!");
+                }
 
                 // Track in Google Analytics
                 gtag("event", "generate_image", {

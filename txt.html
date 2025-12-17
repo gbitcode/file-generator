@@ -39,7 +39,7 @@ redirect_from:
                 min="0"
                 step="0.01"
                 class="input input-bordered"
-                placeholder="Leave empty to use rows"
+                placeholder="Size"
             />
             <select name="sizeUnit" class="select select-bordered">
                 <option value="KB">KB</option>
@@ -69,9 +69,11 @@ redirect_from:
 
             try {
                 const blob = await generateText(config);
-                logToUI("Downloading file...");
-                downloadFile(blob, "file.txt");
-                logToUI("✓ Download complete!");
+                logToUI("Preparing file...");
+                const result = await downloadOrShareFile(blob, "file.txt", "text");
+                if (result.method === 'download') {
+                    logToUI("✓ Download complete!");
+                }
 
                 // Track in Google Analytics
                 gtag("event", "generate_txt", {

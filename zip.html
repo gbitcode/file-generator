@@ -115,9 +115,11 @@ redirect_from:
 
             try {
                 const blob = await generateZIP(config);
-                logToUI("Downloading file...");
-                downloadFile(blob, "archive.zip");
-                logToUI("✓ Download complete!");
+                logToUI("Preparing file...");
+                const result = await downloadOrShareFile(blob, "archive.zip", "zip");
+                if (result.method === 'download') {
+                    logToUI("✓ Download complete!");
+                }
 
                 // Track in Google Analytics
                 gtag("event", "generate_zip", {
