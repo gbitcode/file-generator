@@ -51,7 +51,8 @@ redirect_from:
                 const blob = await generateBinary(config);
                 logToUI("Preparing file...");
                 const shareTitle = `Binary file ${config.size} ${config.sizeUnit}`;
-                const result = await downloadOrShareFile(blob, "file.bin", "binary", shareTitle);
+                const filename = `Binary_file_${config.size}_${config.sizeUnit}.bin`;
+                const result = await downloadOrShareFile(blob, filename, "binary", shareTitle);
                 if (result.method === 'download') {
                     logToUI("✓ Download complete!");
                 }

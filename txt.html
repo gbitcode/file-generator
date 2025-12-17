@@ -73,7 +73,10 @@ redirect_from:
                 const shareTitle = config.size
                     ? `Text file ${config.size} ${config.sizeUnit}`
                     : `Text file ${config.rows} rows`;
-                const result = await downloadOrShareFile(blob, "file.txt", "text", shareTitle);
+                const filename = config.size
+                    ? `Text_file_${config.size}_${config.sizeUnit}.txt`
+                    : `Text_file_${config.rows}_rows.txt`;
+                const result = await downloadOrShareFile(blob, filename, "text", shareTitle);
                 if (result.method === 'download') {
                     logToUI("✓ Download complete!");
                 }

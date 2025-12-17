@@ -87,7 +87,10 @@ redirect_from:
                 const shareTitle = config.size
                     ? `PDF ${config.pageFormat.toUpperCase()} ${config.size} ${config.sizeUnit}`
                     : `PDF ${config.pageFormat.toUpperCase()} ${config.pages} pages`;
-                const result = await downloadOrShareFile(blob, "document.pdf", "pdf", shareTitle);
+                const filename = config.size
+                    ? `PDF_${config.pageFormat.toUpperCase()}_${config.size}_${config.sizeUnit}.pdf`
+                    : `PDF_${config.pageFormat.toUpperCase()}_${config.pages}_pages.pdf`;
+                const result = await downloadOrShareFile(blob, filename, "pdf", shareTitle);
                 if (result.method === 'download') {
                     logToUI("✓ Download complete!");
                 }
